@@ -1,171 +1,160 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import { useState } from "react";
+import ProgressBar from "@/components/ProgressBar";
 
 const TicketSelection = () => {
   const router = useRouter();
+  const [selectedTicket, setSelectedTicket] = useState("Free");
+
+  const tickets = [
+    {
+      id: "Free",
+      price: "Free",
+      type: "Regular Access",
+      slots: "20/52",
+      defaultBg: "bg-[#12464e] border border-[#197686]",
+      hoverBg: "hover:bg-[#2b545a]",
+    },
+    {
+      id: "VIP",
+      price: "$150",
+      type: "VIP Access",
+      slots: "20/52",
+      defaultBg: "border border-[#197686]",
+      hoverBg: "hover:bg-[#2b545a]",
+    },
+    {
+      id: "VVIP",
+      price: "$200",
+      type: "VVIP Access",
+      slots: "20/52",
+      defaultBg: "border border-[#197686]",
+      hoverBg: "hover:bg-[#2b545a]",
+    },
+  ];
 
   return (
-    <div className="w-[700px] h-[902px] p-12 bg-[#041e22] rounded-[40px] border border-[#0e464f] flex-col justify-center items-center gap-8 inline-flex">
-      <div className="self-stretch h-12 flex-col justify-start items-start gap-3 flex">
-        <div className="self-stretch justify-start items-center gap-3 inline-flex">
-          <div className="grow shrink basis-0 flex-col justify-start items-center gap-4 inline-flex">
-            <div className="self-stretch text-white text-[32px] font-normal font-['JejuMyeongjo']">
-              Ticket Selection
-            </div>
-          </div>
-          <div className="text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
+    <div className="min-h-screen flex items-center justify-center bg-[#042127] p-4">
+      <div className="w-full max-w-[700px] p-8 bg-[#041e22] rounded-[40px] border border-[#0e464f] flex flex-col gap-8">
+        {/* Header Section */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-white text-2xl font-normal font-['JejuMyeongjo']">
+            Ticket Selection
+          </h2>
+          <span className="text-neutral-50 text-base font-normal font-['Roboto']">
             Step 1/3
-          </div>
+          </span>
         </div>
-        <div data-svg-wrapper>
-          <svg
-            width="604"
-            height="4"
-            viewBox="0 0 604 4"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 2C0 0.895431 0.895431 0 2 0H602C603.105 0 604 0.895431 604 2C604 3.10457 603.105 4 602 4H2.00001C0.895441 4 0 3.10457 0 2Z"
-              fill="#0E464F"
-            />
-            <path
-              d="M0 2C0 0.895431 0.895431 0 2 0H230C231.105 0 232 0.895431 232 2C232 3.10457 231.105 4 230 4H2C0.895428 4 0 3.10457 0 2Z"
-              fill="#24A0B5"
-            />
-          </svg>
-        </div>
-      </div>
-      <div className="self-stretch h-[726px] p-6 bg-[#08252b] rounded-[32px] border border-[#0e464e] flex-col justify-center items-start gap-8 flex">
-        <div className="self-stretch h-[200px] p-6 bg-[#23a0b5] rounded-3xl border-l-2 border-r-2 border-b-2 border-[#07363e] backdrop-blur-[14px] flex-col justify-start items-center gap-2 flex">
-          <div className="self-stretch h-[118px] flex-col justify-start items-center gap-2 flex">
-            <div className="self-stretch text-center text-neutral-50 text-[62px] font-normal font-['Road Rage'] leading-[62px]">
-              Techember Fest ”25
-            </div>
-            <div className="w-[340px] text-center text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-              Join us for an unforgettable experience at [Event Name]! Secure
-              your spot now.
+
+        {/* Progress Bar */}
+        <ProgressBar step={1} />
+
+        {/* Ticket Details */}
+        <div className="bg-[#08252b] p-6 rounded-[32px] border border-[#0e464e] flex flex-col gap-8">
+          <div className="bg-[#08252b] p-6 rounded-3xl border border-[#07363e] text-center text-white">
+            <h3 className="text-[32px] font-['Road Rage']">
+              Techember Fest '25
+            </h3>
+            <p className="text-base font-['Roboto']">
+              Join us for an unforgettable experience at Techember Fest!
+            </p>
+            <p className="text-base font-['Roboto'] mt-2">
+              📍 [Event Location] | March 15, 2025 | 7:00 PM
+            </p>
+          </div>
+
+          <div data-svg-wrapper className="relative">
+            <svg
+              width="556"
+              height="4"
+              viewBox="0 0 556 4"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="556" height="4.0001" fill="#07373F" />
+            </svg>
+          </div>
+
+          {/* Ticket Selection */}
+          <div>
+            <h4 className="text-neutral-50 text-base font-['Roboto']">
+              Select Ticket Type:
+            </h4>
+            <div className="flex flex-col md:flex-row gap-4 mt-2">
+              {tickets.map((ticket) => (
+                <button
+                  key={ticket.id}
+                  onClick={() => setSelectedTicket(ticket.id)}
+                  className={`w-full md:w-[162px] h-[110px] p-3 rounded-xl flex flex-col justify-start items-start gap-3 transition-all ${
+                    selectedTicket === ticket.id
+                      ? "bg-[#2b545a]"
+                      : ticket.defaultBg
+                  } ${selectedTicket !== ticket.id ? ticket.hoverBg : ""}`}
+                >
+                  <p className="text-2xl font-semibold text-white">
+                    {ticket.price}
+                  </p>
+                  <div>
+                    <p className="text-[12px] uppercase font-semibold text-white">
+                      {ticket.type}
+                    </p>
+                    <p className="text-sm items-start text-[#d9d9d9]">
+                      {ticket.slots}
+                    </p>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
-          <div className="justify-start items-start gap-4 inline-flex">
-            <div className="text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-              📍 [Event Location]
-            </div>
-            <div className="text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-              | |
-            </div>
-            <div className="text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-              March 15, 2025 | 7:00 PM
-            </div>
-          </div>
-        </div>
-        <div data-svg-wrapper className="relative">
-          <svg
-            width="556"
-            height="4"
-            viewBox="0 0 556 4"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="556" height="4.0001" fill="#07373F" />
-          </svg>
-        </div>
-        <div className="self-stretch h-[218px] flex-col justify-start items-start gap-2 flex">
-          <div className="self-stretch text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-            Select Ticket Type:
-          </div>
-          <div className="self-stretch h-[186px] p-4 bg-[#042127] rounded-3xl border border-[#07363e] flex-col justify-center items-center gap-4 flex">
-            <div className="self-stretch justify-start items-start gap-6 inline-flex">
-              <div className="h-[65px] p-2 bg-[#197686] rounded-xl border border-[#197686] justify-start items-start gap-2 flex overflow-hidden">
-                <div className="grow shrink basis-0 flex-col justify-center items-start gap-1 inline-flex">
-                  <div className="text-neutral-50 text-base font-normal font-['Roboto'] uppercase leading-normal">
-                    Regular Access
-                  </div>
-                  <div className="text-neutral-50 text-sm font-normal font-['Roboto'] leading-[21px]">
-                    20 left!
-                  </div>
-                </div>
-                <div className="w-20 p-2 bg-[#0e464e] rounded-lg border border-[#2aa3b8] flex-col justify-center items-end gap-2.5 inline-flex">
-                  <div className="text-neutral-50 text-xl font-semibold font-['Roboto'] leading-snug">
-                    Free
-                  </div>
-                </div>
-              </div>
-              <div className="h-[65px] p-2 rounded-xl border border-[#07363e] justify-start items-start gap-2 flex overflow-hidden">
-                <div className="grow shrink basis-0 flex-col justify-center items-start gap-1 inline-flex">
-                  <div className="text-neutral-50 text-base font-normal font-['Roboto'] uppercase leading-normal">
-                    VVIP Access
-                  </div>
-                  <div className="text-neutral-50 text-sm font-normal font-['Roboto'] leading-[21px]">
-                    20 left!
-                  </div>
-                </div>
-                <div className="w-20 p-2 bg-[#0e464e] rounded-lg border border-[#2aa3b8] flex-col justify-center items-end gap-2.5 inline-flex">
-                  <div className="text-right text-neutral-50 text-xl font-semibold font-['Roboto'] leading-snug">
-                    $150
-                  </div>
-                </div>
-              </div>
-              <div className="h-[65px] p-2 rounded-xl border border-[#07363e] justify-start items-start gap-2 flex overflow-hidden">
-                <div className="grow shrink basis-0 flex-col justify-center items-start gap-1 inline-flex">
-                  <div className="text-neutral-50 text-base font-normal font-['Roboto'] uppercase leading-normal">
-                    VIP Access{" "}
-                  </div>
-                  <div className="text-neutral-50 text-sm font-normal font-['Roboto'] leading-[21px]">
-                    20 left!
-                  </div>
-                </div>
-                <div className="w-20 p-2 bg-[#0e464e] rounded-lg border border-[#2aa3b8] flex-col justify-center items-end gap-2.5 inline-flex">
-                  <div className="text-right text-neutral-50 text-xl font-semibold font-['Roboto'] leading-snug">
-                    $50
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="self-stretch h-20 flex-col justify-start items-start gap-2 flex">
-          <div className="self-stretch text-neutral-50 text-base font-normal font-['Roboto'] leading-normal">
-            {" "}
-            Number of Tickets
-          </div>
-          <div className="self-stretch p-3 rounded-xl border border-[#07363e] justify-start items-center gap-2 inline-flex">
-            <div className="grow shrink basis-0 text-white text-base font-normal font-['Roboto'] leading-normal">
-              1
-            </div>
-            <div data-svg-wrapper>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+
+          {/* Number of Tickets */}
+          <div>
+            <h4 className="text-neutral-50 text-base font-['Roboto']">
+              Number of Tickets
+            </h4>
+            <div className="p-3 rounded-xl border border-[#07363e] flex justify-between items-center mt-2">
+              <span className="text-white">1</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
-                  d="M16.293 8.29309L12 12.5861L7.70697 8.29309L6.29297 9.70709L12 15.4141L17.707 9.70709L16.293 8.29309Z"
+                  d="M16.293 8.293L12 12.586L7.707 8.293L6.293 9.707L12 15.414L17.707 9.707L16.293 8.293Z"
                   fill="white"
                 />
               </svg>
             </div>
           </div>
-        </div>
-        <div className="self-stretch h-12 p-12 bg-[#041e22] rounded-3xl border border-[#0e464f] justify-center items-center gap-8 inline-flex">
-          <div className="grow shrink basis-0 h-12 px-6 py-3 rounded-lg border border-[#23a0b5] justify-center items-center gap-2 flex overflow-hidden">
+
+          {/* Buttons */}
+          {/* Big screen */}
+          <div className="hidden sm:flex justify-between">
             <button
               onClick={() => router.push("/")}
-              className="text-[#23a0b5] text-base font-normal font-['JejuMyeongjo'] leading-normal"
+              className="text-[#23a0b5] h-12 px-20 lg:px-28 py-3 rounded-lg border border-[#23a0b5] justify-center items-center gap-2 inline-flex"
             >
               Cancel
             </button>
-          </div>
-          <div className="grow shrink basis-0 h-12 px-6 py-3 bg-[#23a0b5] rounded-lg justify-center items-center gap-2 flex overflow-hidden">
             <button
               onClick={() => router.push("/form-details")}
-              className="text-white text-base font-normal font-['JejuMyeongjo'] leading-normal"
+              className="text-white bg-[#23a0b5] px-16 lg:px-32 py-3 rounded-lg"
             >
               Next
+            </button>
+          </div>
+
+          {/* Mobile screen */}
+          <div className="flex sm:hidden flex-col items-center space-y-4 w-full">
+            <button
+              onClick={() => router.push("/form-details")}
+              className="text-white bg-[#23a0b5] w-full max-w-[90%] py-3 rounded-lg"
+            >
+              Next
+            </button>
+            <button
+              onClick={() => router.push("/")}
+              className="text-[#23a0b5] w-full max-w-[90%] py-3 rounded-lg border border-[#23a0b5]"
+            >
+              Cancel
             </button>
           </div>
         </div>
@@ -175,3 +164,60 @@ const TicketSelection = () => {
 };
 
 export default TicketSelection;
+
+// {
+//   /* Buttons */
+// }
+// {
+//   /* Big screen */
+// }
+// <div className="hidden sm:flex justify-between">
+//   <button
+//     onClick={() => router.push("/")}
+//     className="text-[#23a0b5] h-12 px-20 lg:px-28 py-3 rounded-lg border border-[#23a0b5] justify-center items-center gap-2 inline-flex"
+//   >
+//     Cancel
+//   </button>
+//   <button
+//     onClick={() => router.push("/form-details")}
+//     className="text-white bg-[#23a0b5] px-16 lg:px-32 py-3 rounded-lg"
+//   >
+//     Next
+//   </button>
+// </div>;
+
+// {
+//   /* Mobile screen */
+// }
+// <div className="flex sm:hidden flex-col items-center space-y-4 w-full">
+//   <button
+//     onClick={() => router.push("/form-details")}
+//     className="text-white bg-[#23a0b5] w-full max-w-[90%] py-3 rounded-lg"
+//   >
+//     Next
+//   </button>
+//   <button
+//     onClick={() => router.push("/")}
+//     className="text-[#23a0b5] w-full max-w-[90%] py-3 rounded-lg border border-[#23a0b5]"
+//   >
+//     Cancel
+//   </button>
+// </div>;
+
+// {
+//   /* Number of Tickets */
+// }
+// <div>
+//   <h4 className="text-neutral-50 text-base font-['Roboto']">
+//     Number of Tickets
+//   </h4>
+//   <div className="p-3 rounded-xl border border-[#07363e] flex justify-between items-center mt-2">
+//     <span className="text-white">1</span>
+//     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+//       <path
+//         d="M16.293 8.293L12 12.586L7.707 8.293L6.293 9.707L12 15.414L17.707 9.707L16.293 8.293Z"
+//         fill="white"
+//       />
+//     </svg>
+//   </div>
+// </div>;
